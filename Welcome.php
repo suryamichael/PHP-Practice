@@ -18,9 +18,9 @@
     </style>
 </head>
 <body>
-    <h1 class="my-5">Hola! <b><?php echo htmlspecialchars($_SESSION["Username"]); ?></b>. Selamat datang di tabungin.</h1>
+    <h1 class="my-5">Hola! <b><?php echo htmlspecialchars($_SESSION['Username']); ?></b>. Selamat datang di tabungin.</h1>
     <p>
-        <a href="#" class="btn btn-warning">Reset Your Password</a>
+        <a href="updateAkun.php" class="btn btn-warning">Akun</a>
         <a href="Logout.php" class="btn btn-danger ml-3">Sign Out of Your Account</a>
     </p>
 </body>

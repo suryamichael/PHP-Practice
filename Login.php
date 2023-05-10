@@ -8,15 +8,15 @@
 
     require_once "Db.php";
 
-    $Username = $Password = "";
-    $Username_err = $Password_err = $Login_err = "";
+    $Email = $Password = "";
+    $Email_err = $Password_err = $Login_err = "";
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if(empty(trim($_POST['Username']))) {
-            $Username_err = "Masukkan Username anda";
+        if(empty(trim($_POST['Email']))) {
+            $Email_err = "Masukkan Email anda";
         }
         else {
-            $Username = trim($_POST['Username']);
+            $Email = trim($_POST['Email']);
         }
 
         if(empty(trim($_POST['Password']))) {
@@ -26,21 +26,23 @@
             $Password = trim($_POST['Password']);
         }
 
-        if(empty($Username_err) && empty($Password_err)) {
+        if(empty($Email_err) && empty($Password_err)) {
             
-            $Sql = "SELECT ID_User, Username, Password FROM tabungin_user WHERE Username = :Username";
+            $Sql = "SELECT ID_User, Username, Email, Password FROM tabungin_user WHERE Email = :Email";
 
             if($stmt = $conn -> prepare($Sql)) {
                 
-                $stmt -> bindParam(":Username", $Param_username, PDO::PARAM_STR);
-                $Param_username = trim($_POST['Username']);
+                $stmt -> bindParam(":Email", $Param_Email, PDO::PARAM_STR);
+                $Param_Email= trim($_POST['Email']);
 
                 if($stmt -> execute()) {
                     if($stmt -> rowCount() == 1) {
                         if($row = $stmt ->fetch()) {
                             $Id = $row['ID_User'];
                             $Username = $row['Username'];
+                            $Email = $row['Email'];
                             $Hashed_password = $row['Password'];
+                            
 
                             if(password_verify($Password, $Hashed_password)) {
                                 session_start();
@@ -48,6 +50,7 @@
                                 $_SESSION['Loggedin'] = true;
                                 $_SESSION['ID_User'] = $Id;
                                 $_SESSION['Username'] = $Username;
+                                $_SESSION['Email'] = $Email;
 
                                 header("Location: Welcome.php");
                             }else {
@@ -56,7 +59,7 @@
                         }
                     }
                     else {
-                        $Login_err = "Salah nama";
+                        $Login_err = "Salah Email";
                     }
                 }
                 else{
@@ -95,9 +98,9 @@
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group">
-                <label>Username</label>
-                <input type="text" name="Username" class="form-control <?php echo (!empty($Username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $Username; ?>">
-                <span class="invalid-feedback"><?php echo $Username_err; ?></span>
+                <label>Email</label>
+                <input type="text" name="Email" class="form-control <?php echo (!empty($Email_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $Email; ?>">
+                <span class="invalid-feedback"><?php echo $Email_err; ?></span>
             </div>    
             <div class="form-group">
                 <label>Password</label>
