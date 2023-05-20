@@ -91,21 +91,6 @@
                 } catch (PDOException $e) {
                     echo "Coba lagi nanti";
                 }
-
-                /* $stmt -> bindParam(":Username", $param_Username, PDO::PARAM_STR);
-                $stmt -> bindParam(":Password", $param_Password, PDO::PARAM_STR);
-
-                $param_Username = $Username;
-                $param_Password = password_hash($Password, PASSWORD_DEFAULT);
-
-                if($stmt -> execute()) {
-
-                    header("Location: Login.php");
-                }
-                else {
-                    echo "Something went wrong, please try again later";
-                } */
-    
                 mysqli_stmt_close($stmt);   
             }
 
